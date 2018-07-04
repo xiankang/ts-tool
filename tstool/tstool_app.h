@@ -13,4 +13,6 @@ public:
 
 private:
   QPointer<QQmlApplicationEngine> p_engine_;
+
+  QPointer<QQuickWindow> main_window_;
 };
