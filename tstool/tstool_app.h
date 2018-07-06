@@ -3,6 +3,9 @@
 #include <QQuickWindow>
 #include <QQmlapplicationEngine>
 #include <QPointer>
+#include <QObject>
+#include "download/download_excel.h"
+#include "download/excel_to_ts.h"
 
 class TsToolApp : public QGuiApplication {
 	Q_OBJECT
@@ -15,4 +18,9 @@ private:
   QPointer<QQmlApplicationEngine> p_engine_;
 
   QPointer<QQuickWindow> main_window_;
+
+  QPointer<DownloadExcel> download_excel_;
+  QPointer<ExcelToTs> excel_to_ts_;
+private:
+	void bindSignals();
 };

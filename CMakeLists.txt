@@ -155,6 +155,7 @@ endif()
 
 include(ObsHelpers)
 
+add_subdirectory(xlsx)
 add_subdirectory(tstool)
 
 #增加运行子目录

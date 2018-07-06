@@ -19,6 +19,11 @@ bool TsToolApp::init() {
 		}
 	}
 	main_window_->show();
+
+	download_excel_ = new DownloadExcel(this);
+	excel_to_ts_ = new ExcelToTs(this);
+
+	bindSignals();
   }
   catch(const char* error) {
     qDebug(error);
@@ -26,4 +31,9 @@ bool TsToolApp::init() {
   }
 
   return true;
+}
+
+void TsToolApp::bindSignals() {
+	QObject::connect(main_window_, SIGNAL(downloadExcel(QString, QString)), download_excel_, SLOT(execute(QString, QString)));
+	QObject::connect(main_window_, SIGNAL(excelToTs(QString, QString)), excel_to_ts_, SLOT(execute(QString, QString)));
 }

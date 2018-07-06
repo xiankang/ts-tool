@@ -19,7 +19,15 @@ else()
 	set(_bin_suffix 32)
 endif()
 
+#用于验证
+include(OpensslBins)
+file(GLOB SSLEAY_LIBEAY_FILES
+	${openssl_dll}
+)
+
+#openssl_dll文件作为qt依赖进行添加
 file(GLOB QT_DEBUG_BIN_FILES
+	${SSLEAY_LIBEAY_FILES}
 	"${Qt5Core_DIR}/../../../bin/Qt5Cored.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5Cored.pdb"
 	"${Qt5Core_DIR}/../../../bin/Qt5Guid.dll"
@@ -49,6 +57,7 @@ file(GLOB QT_DEBUG_STYLES_BIN_FILES
 	"${Qt5Core_DIR}/../../../plugins/styles/qwindowsvistastyled.dll")
 
 file(GLOB QT_BIN_FILES
+	${SSLEAY_LIBEAY_FILES}
 	"${Qt5Core_DIR}/../../../bin/Qt5Core.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5Gui.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5Widgets.dll"

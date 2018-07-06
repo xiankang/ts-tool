@@ -68,6 +68,7 @@ if(NOT Qt5Widgets_FOUND)
 endif()
 
 add_subdirectory(forms)
+add_subdirectory(download)
 
 set(tstool_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
@@ -82,12 +83,18 @@ qt5_add_resources(QRC_FILES ${RESOURCE})
 
 set(SRC_ALL_SRCS
   ${tstool_SRCS}
-  ${forms_SRCS}
+	${forms_SRCS}
+	${download_SRCS}
 )
 
 source_group(forms
 	FILES
 		${forms_SRCS}
+)
+
+source_group(download 
+	FILES
+		${download_SRCS}
 )
 
 set(EXECUTABLE_SRCS  
@@ -100,7 +107,11 @@ add_executable(${EXECUTABLE_NAME}
 )
 
 #用到的qt模块
-qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidgets)
+qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidgets WebSockets)
+
+#添加xlsx模块
+include(XlsxBins)
+use_xlsx_module(${PROJECT_NAME})
 
 if(WIN32)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -111,16 +122,16 @@ if(WIN32)
 
 	set_target_properties(${PROJECT_NAME}
 		PROPERTIES
-		OUTPUT_NAME "nimoobs${_output_suffix}")
+		OUTPUT_NAME "${PROJECT_NAME}${_output_suffix}")
 endif()
 
 # Use the Widgets module from Qt 5
-target_link_libraries(${PROJECT_NAME}
-	Qt5::Widgets
-	Qt5::Quick
-	Qt5::QuickControls2
-	Qt5::QuickWidgets
-)
+# target_link_libraries(${PROJECT_NAME}
+# 	Qt5::Widgets
+# 	Qt5::Quick
+# 	Qt5::QuickControls2
+# 	Qt5::QuickWidgets
+# )
 
 if(APPLE)
   target_link_libraries(${PROJECT_NAME}
