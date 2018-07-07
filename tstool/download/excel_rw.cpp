@@ -3,7 +3,7 @@
 #include "xlsxcellrange.h"
 #include "xlsxdocument.h"
 
-ExcelRW::ExcelRW(QObject *parent) : QObject(parent),total_count_(0), key_column_(1), source_column_(2), trans_column_(3){
+ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(5), key_column_(1), trans_columns_(8){
 
 }
 
@@ -29,45 +29,59 @@ bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
 		return is_success;
 	}
 
-	p_doc->selectSheet(p_doc->sheetNames().first());
+	int sheet_index = 5;
+	foreach(QString sheet_name, p_doc->sheetNames()) {
+		qDebug(qUtf8Printable(sheet_name));
+	}
+
+	if (p_doc->sheetNames().size() <= sheet_index) {
+		qDebug("未存在主播端（总表）");
+		return is_success;
+	}
+	
+	//选择第sheet_index表
+	p_doc->selectSheet(p_doc->sheetNames().at(sheet_index));
+
 	cell_range = p_doc->currentWorksheet()->dimension();
 
-	do {
-		if (1 == cell_range.lastRow() && (p_doc->cellAt(cell_range.lastRow(), cell_range.lastColumn()) == 0)) {
-			is_success = true;
-			break;
-		}
+	for (int column = 2; column <= trans_columns_; column++) {
+		//
+		QList<TranslateModel> trans_list;
 
-		for (int i = 2; i <= cell_range.lastRow(); i++) {
-			if (p_doc->cellAt(i, key_column_) == 0) {
-				key = "";
-			}
-			else {
-				key = p_doc->cellAt(i, key_column_)->value().toString().trimmed();
+		do {
+			if (1 == cell_range.lastRow() && (p_doc->cellAt(cell_range.lastRow(), cell_range.lastColumn()) == 0)) {
+				is_success = true;
+				break;
 			}
 
-			if (p_doc->cellAt(i, source_column_) == 0) {
-				source = "";
-			}
-			else {
-				source = p_doc->cellAt(i, source_column_)->value().toString().trimmed();
-			}
+			for (int i = 2; i <= cell_range.lastRow(); i++) {
+				if (p_doc->cellAt(i, key_column_) == 0) {
+					key = "";
+				}
+				else {
+					key = p_doc->cellAt(i, key_column_)->value().toString().trimmed();
+				}
 
-			if (p_doc->cellAt(i, trans_column_) == 0) {
-				translate = "";
-			}
-			else {
-				translate = p_doc->cellAt(i, trans_column_)->value().toString().trimmed();
-			}
+				if (p_doc->cellAt(i, column) == 0) {
+					translate = "";
+				}
+				else {
+					translate = p_doc->cellAt(i, column)->value().toString().trimmed();
+				}
 
-			TranslateModel model;
-			model.setKey(key);
-			model.setSource(source);
-			model.setTranslate(translate);
+				TranslateModel model;
+				model.setKey(key);
+				model.setTranslate(translate);
 
-			qDebug("translate model key:%s, source:%s, translate:%s", model.getKey(), model.getSource(), model.getTranslate());
-		}
-	} while (0);
+				if (!model.isEmpty()) {
+					trans_list.append(model);
+					//qDebug("translate model key:%s, translate:%s", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
+				}
+			}
+		} while (0);
+		list.append(trans_list);
+	}
+	
 
 	return is_success;
 }

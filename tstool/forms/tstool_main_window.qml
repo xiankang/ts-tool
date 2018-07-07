@@ -71,7 +71,7 @@ ApplicationWindow {
 
                 TextField {
                     id: txt_ts_output_path
-                    text: "D:/a.ts"
+                    text: "D:/obs/nimo-obs/nimoobs/forms/ts/"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 }
 

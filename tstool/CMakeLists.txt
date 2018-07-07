@@ -51,6 +51,7 @@ find_package(Qt5Widgets ${FIND_MODE})
 find_package(Qt5Core ${FIND_MODE})
 find_package(Qt5Quick ${FIND_MODE})
 find_package(Qt5QuickControls2 ${FIND_MODE})
+find_package(Qt5Xml ${FIND_MODE})
 
 get_target_property(QtCore_location Qt5::Core LOCATION)
 
@@ -107,7 +108,7 @@ add_executable(${EXECUTABLE_NAME}
 )
 
 #用到的qt模块
-qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidgets WebSockets)
+qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidgets WebSockets Xml)
 
 #添加xlsx模块
 include(XlsxBins)

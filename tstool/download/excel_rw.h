@@ -13,8 +13,7 @@ public:
 	bool readXlsx(QList<QList<TranslateModel>> &list, QString path);
 
 private:
-	int total_count_;
+	int sheet_index_;
 	int key_column_;
-	int source_column_;
-	int trans_column_;
+	int trans_columns_;
 };

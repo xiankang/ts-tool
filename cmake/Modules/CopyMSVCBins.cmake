@@ -50,6 +50,8 @@ file(GLOB QT_DEBUG_BIN_FILES
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickControls2d.pdb"
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickWidgetsd.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickWidgetsd.pdb"
+	"${Qt5Core_DIR}/../../../bin/Qt5Xmld.dll"
+	"${Qt5Core_DIR}/../../../bin/Qt5Xmld.pdb"
 	)
 file(GLOB QT_DEBUG_PLAT_BIN_FILES
 	"${Qt5Core_DIR}/../../../plugins/platforms/qwindowsd.dll")
@@ -69,6 +71,7 @@ file(GLOB QT_BIN_FILES
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickTemplates2.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickControls2.dll"
 	"${Qt5Core_DIR}/../../../bin/Qt5QuickWidgets.dll"
+	"${Qt5Core_DIR}/../../../bin/Qt5Xml.dll"
 	)
 file(GLOB QT_PLAT_BIN_FILES
 	"${Qt5Core_DIR}/../../../plugins/platforms/qwindows.dll")
