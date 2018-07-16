@@ -3,7 +3,7 @@
 #include "xlsxcellrange.h"
 #include "xlsxdocument.h"
 
-ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(5), key_column_(1), trans_columns_(8){
+ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(7), key_column_(1), trans_columns_(8){
 
 }
 
@@ -29,18 +29,17 @@ bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
 		return is_success;
 	}
 
-	int sheet_index = 5;
 	foreach(QString sheet_name, p_doc->sheetNames()) {
 		qDebug(qUtf8Printable(sheet_name));
 	}
 
-	if (p_doc->sheetNames().size() <= sheet_index) {
+	if (p_doc->sheetNames().size() <= sheet_index_) {
 		qDebug("未存在主播端（总表）");
 		return is_success;
 	}
 	
 	//选择第sheet_index表
-	p_doc->selectSheet(p_doc->sheetNames().at(sheet_index));
+	p_doc->selectSheet(p_doc->sheetNames().at(sheet_index_));
 
 	cell_range = p_doc->currentWorksheet()->dimension();
 

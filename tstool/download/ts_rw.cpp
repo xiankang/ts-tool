@@ -87,6 +87,7 @@ bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
 			QString key = child_list.at(child_list.count() - 2).toElement().text();
 			QString translation = node.lastChild().toElement().text();
 			QString value = key_value[key];
+			//qDebug("key=%s, translation=%s, value=%s", qUtf8Printable(key), qUtf8Printable(translation), qUtf8Printable(value));
 
 			if (!value.isEmpty() && translation != value) {
 				QDomNode old_node = node.lastChild();
