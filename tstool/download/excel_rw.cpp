@@ -3,7 +3,7 @@
 #include "xlsxcellrange.h"
 #include "xlsxdocument.h"
 
-ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(7), key_column_(1), trans_columns_(8){
+ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(5), key_column_(1), trans_columns_(9){
 
 }
 
@@ -74,7 +74,7 @@ bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
 
 				if (!model.isEmpty()) {
 					trans_list.append(model);
-					//qDebug("translate model key:%s, translate:%s", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
+					qDebug("translate model key:%s, translate:%s", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
 				}
 			}
 		} while (0);

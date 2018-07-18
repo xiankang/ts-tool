@@ -6,7 +6,7 @@
 #include <QDebug>
 
 QString TsRw::prefix_ = "nimoobs_";
-QVector<QString> TsRw::language_ = { "zh", "en", "id", "vi", "th", "ph", "my" };
+QVector<QString> TsRw::language_ = { "zh", "en", "id", "vi", "th", "pil", "ms", "ur" };
 
 TsRw::TsRw(QObject *parent) : QObject(parent) {
 	initLanguage();
@@ -60,6 +60,7 @@ bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
 
 		foreach(TranslateModel model, trans_list) {
 			key_value[model.getKey()] = model.getTranslate();
+			qDebug("key=%s, translation=%s ", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
 		}
 
 		if (trans_list.count() <= 0) {
@@ -87,7 +88,7 @@ bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
 			QString key = child_list.at(child_list.count() - 2).toElement().text();
 			QString translation = node.lastChild().toElement().text();
 			QString value = key_value[key];
-			//qDebug("key=%s, translation=%s, value=%s", qUtf8Printable(key), qUtf8Printable(translation), qUtf8Printable(value));
+			qDebug("key=%s, translation=%s, value=%s", qUtf8Printable(key), qUtf8Printable(translation), qUtf8Printable(value));
 
 			if (!value.isEmpty() && translation != value) {
 				QDomNode old_node = node.lastChild();
