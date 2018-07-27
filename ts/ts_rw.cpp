@@ -6,7 +6,7 @@
 #include <QDebug>
 
 QString TsRw::prefix_ = "nimoobs_";
-QVector<QString> TsRw::language_ = { "zh", "en", "id", "vi", "th", "pil", "ms", "ur" };
+QVector<QString> TsRw::language_ = { "zh", "en", "id", "vi", "th", "fil", "ms", "ur" };
 
 TsRw::TsRw(QObject *parent) : QObject(parent) {
 	initLanguage();

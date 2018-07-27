@@ -10,7 +10,7 @@ else()
 endif()
 
 #项目
-project(tstool)
+project(tstoolui)
 
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 
@@ -47,7 +47,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 set(CMAKE_AUTOMOC TRUE)
 
 # Find the QtWidgets library
+find_package(Qt5Widgets ${FIND_MODE})
 find_package(Qt5Core ${FIND_MODE})
+find_package(Qt5Quick ${FIND_MODE})
+find_package(Qt5QuickControls2 ${FIND_MODE})
+find_package(Qt5Xml ${FIND_MODE})
 
 get_target_property(QtCore_location Qt5::Core LOCATION)
 
@@ -55,18 +59,41 @@ if(APPLE)
 	find_package(Qt5MacExtras REQUIRED)
 endif(APPLE)
 
+if(NOT Qt5Widgets_FOUND)
+	if (ENABLE_UI)
+		message(FATAL_ERROR "Failed to find Qt5")
+	else()
+		message(STATUS "Qt5 not found - UI disabled")
+		return()
+	endif()
+endif()
+
+add_subdirectory(forms)
+
+set(tstool_SRCS
+  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.cpp
+)
 
 # qt5_wrap_ui(UI_HEADERS ${forms_SRCS})
 
-set(
-	tstool_SRCS
-)
+# 添加qrc文件
+qt5_add_resources(QRC_FILES ${RESOURCE})
+
 set(SRC_ALL_SRCS
   ${tstool_SRCS}
+	${forms_SRCS}
+)
+
+source_group(forms
+	FILES
+		${forms_SRCS}
 )
 
 set(EXECUTABLE_SRCS  
   ${SRC_ALL_SRCS}
+  ${QRC_FILES}
 )
 
 add_executable(${EXECUTABLE_NAME}
@@ -74,7 +101,7 @@ add_executable(${EXECUTABLE_NAME}
 )
 
 #用到的qt模块
-qt5_use_modules(${PROJECT_NAME} Core Gui)
+qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidgets)
 
 #添加xlsx模块
 include(XlsxBins)
@@ -95,6 +122,24 @@ if(WIN32)
 		PROPERTIES
 		OUTPUT_NAME "${PROJECT_NAME}${_output_suffix}")
 endif()
+
+#release设置子系统
+IF(WIN32)
+  IF(MSVC)
+    SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+    SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
+    SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /entry:mainCRTStartup")
+    SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS /entry:mainCRTStartup")
+  ENDIF()
+ENDIF()
+
+# Use the Widgets module from Qt 5
+# target_link_libraries(${PROJECT_NAME}
+# 	Qt5::Widgets
+# 	Qt5::Quick
+# 	Qt5::QuickControls2
+# 	Qt5::QuickWidgets
+# )
 
 if(APPLE)
   target_link_libraries(${PROJECT_NAME}

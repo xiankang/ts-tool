@@ -3,7 +3,7 @@
 #include "xlsxcellrange.h"
 #include "xlsxdocument.h"
 
-ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(5), key_column_(1), trans_columns_(9){
+ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(6), key_column_(1), trans_columns_(9){
 
 }
 

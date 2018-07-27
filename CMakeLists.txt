@@ -146,7 +146,7 @@ if(WIN32)
   endif()
 endif()
 
-option(ENABLE_UI "Enables the OBS user interfaces" ON)
+option(ENABLE_UI "Enables the user interfaces" OFF)
 if(DISABLE_UI OR NOT ENABLE_UI)
   set(UI_ENABLED FALSE)
 else()
@@ -156,7 +156,9 @@ endif()
 include(ObsHelpers)
 
 add_subdirectory(xlsx)
+add_subdirectory(ts)
 add_subdirectory(tstool)
+add_subdirectory(tstoolui)
 
 #增加运行子目录
 

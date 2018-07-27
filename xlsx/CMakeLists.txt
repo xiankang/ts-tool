@@ -1,13 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(DISABLE_UI)
-	message(STATUS "UI disabled")
-	return()
-elseif(ENABLE_UI)
-	set(FIND_MODE REQUIRED)
-else()
-	set(FIND_MODE QUIET)
-endif()
+set(FIND_MODE REQUIRED)
+
+# set(FIND_MODE QUIET)
+
 
 project(xlsx)
 
@@ -34,25 +30,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 set(CMAKE_AUTOMOC TRUE)
 
 # Find the QtWidgets library
-find_package(Qt5Widgets ${FIND_MODE})
 find_package(Qt5Core ${FIND_MODE})
-find_package(Qt5Quick ${FIND_MODE})
-find_package(Qt5QuickControls2 ${FIND_MODE})
 
 get_target_property(QtCore_location Qt5::Core LOCATION)
 
 if(APPLE)
 	find_package(Qt5MacExtras REQUIRED)
 endif(APPLE)
-
-if(NOT Qt5Widgets_FOUND)
-	if (ENABLE_UI)
-		message(FATAL_ERROR "Failed to find Qt5")
-	else()
-		message(STATUS "Qt5 not found - UI disabled")
-		return()
-	endif()
-endif()
 
 set(private_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/xlsxabstractooxmlfile_p.h
@@ -156,6 +140,7 @@ add_definitions(-XLSX_NO_LIB)
 set(_link_type
   "LINK_PRIVATE"
 )
+
 qt5_use_modules(${PROJECT_NAME} Core Gui)
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 

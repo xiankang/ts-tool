@@ -4,8 +4,8 @@
 #include <QQmlapplicationEngine>
 #include <QPointer>
 #include <QObject>
-#include "download/download_excel.h"
-#include "download/excel_to_ts.h"
+#include "download_excel.h"
+#include "excel_to_ts.h"
 
 class TsToolApp : public QGuiApplication {
 	Q_OBJECT
