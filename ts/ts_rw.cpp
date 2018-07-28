@@ -5,33 +5,24 @@
 #include <QTextStream>
 #include <QDebug>
 
-QString TsRw::prefix_ = "nimoobs_";
-QVector<QString> TsRw::language_ = { "zh", "en", "id", "vi", "th", "fil", "ms", "ur" };
+TsRw::TsRw(QMap<QString, QString> lan_to_suffix, QObject *parent) : QObject(parent),
+lan_to_suffix_(lan_to_suffix)
+{
 
-TsRw::TsRw(QObject *parent) : QObject(parent) {
-	initLanguage();
 }
 
 TsRw::~TsRw() {
 
 }
 
-void TsRw::initLanguage() {
-
-}
-
-int TsRw::findLanguageIndex(QString language_file) {
+QString TsRw::findLanguageSuffix(QString language_file) {
 	int index_of_ = language_file.lastIndexOf("_");
 	int index_of_dot = language_file.lastIndexOf(".");
 	QString suffix = language_file.mid(index_of_ + 1, index_of_dot-index_of_-1);
-	for (int i = 0; i < TsRw::language_.size(); i++) {
-		if (TsRw::language_[i] == suffix)
-			return i;
-	}
-	return -1;
+	return suffix;
 }
 
-bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
+bool TsRw::exportToTs(QMap<QString,QList<TranslateModel>> &list, QString path) {
 	QDir dir(path);
 	if (!dir.exists())
 		return false;
@@ -43,24 +34,24 @@ bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
 
 	foreach(QFileInfo file_info, file_info_list) {
 		//find translate list index
-		int lan_index = findLanguageIndex(file_info.fileName());
-		qDebug("path:%s, %d", qPrintable(file_info.filePath()), lan_index);
+		QString suffix = findLanguageSuffix(file_info.fileName());
+		qDebug("ts file %s, suffix:%s", qUtf8Printable(file_info.filePath()), qUtf8Printable(suffix));
 
 		QFile file(file_info.filePath());
 
 		if (!file.open(QIODevice::ReadOnly)) {
-			qDebug("can't open file %s" , file_info.filePath());
+			qDebug("can't open file %s" , qUtf8Printable(file_info.filePath()));
 			continue;
 		}
 
 		//ªÒ»°translate model list
-		QList<TranslateModel>& trans_list(list[lan_index]);
+		QList<TranslateModel>& trans_list(list[suffix]);
 
 		QMap<QString, QString> key_value;
 
 		foreach(TranslateModel model, trans_list) {
 			key_value[model.getKey()] = model.getTranslate();
-			qDebug("key=%s, translation=%s ", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
+			//qDebug("key=%s, translation=%s ", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
 		}
 
 		if (trans_list.count() <= 0) {
@@ -88,7 +79,7 @@ bool TsRw::exportToTs(QList<QList<TranslateModel>> &list, QString path) {
 			QString key = child_list.at(child_list.count() - 2).toElement().text();
 			QString translation = node.lastChild().toElement().text();
 			QString value = key_value[key];
-			qDebug("key=%s, translation=%s, value=%s", qUtf8Printable(key), qUtf8Printable(translation), qUtf8Printable(value));
+			//qDebug("key=%s, translation=%s, value=%s", qUtf8Printable(key), qUtf8Printable(translation), qUtf8Printable(value));
 
 			if (!value.isEmpty() && translation != value) {
 				QDomNode old_node = node.lastChild();

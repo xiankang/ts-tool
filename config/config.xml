@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <excelUrl>
+        https://docs.google.com/spreadsheets/d/1sTVHU4BD124cGgzNeKc966licpc09PeiDTO9ygn18HI/export?format=xlsx&amp;id=1sTVHU4BD124cGgzNeKc966licpc09PeiDTO9ygn18HI
+    </excelUrl>
+    <sheetName>
+        PC端（总表）
+    </sheetName>
+    <regionSheetName>
+        region_code
+    </regionSheetName>
+    <regionSheetName2>
+        Sheet2
+    </regionSheetName2>
+    <lan>
+        first_lan
+    </lan>
+    <lanToChinese>
+        first_lan_chinese
+    </lanToChinese>
+    <translatePath>
+        ./config/translate.xlsx
+    </translatePath>
+    <tsPath>
+        D:/obs/nimo-obs/nimoobs/forms/ts/
+    </tsPath>
+</config>

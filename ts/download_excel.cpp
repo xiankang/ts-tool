@@ -54,6 +54,7 @@ void DownloadExcel::slotReplyFinished(QNetworkReply* reply) {
 
 	reply->deleteLater();
 	delete excel_file_;
+	emit downloadFinished();
 }
 
 void DownloadExcel::slotError(QNetworkReply::NetworkError error) {

@@ -3,7 +3,9 @@
 #include <QDebug>
 #include "ts_rw.h"
 
-ExcelToTs::ExcelToTs(QObject *parent) : QObject(parent) {
+ExcelToTs::ExcelToTs(Config* config, QObject *parent) : QObject(parent),
+config_(config)
+{
 
 }
 
@@ -12,10 +14,14 @@ ExcelToTs::~ExcelToTs() {
 }
 
 void ExcelToTs::execute(QString src, QString target) {
-	ExcelRW excel_rw;
-	QList<QList<TranslateModel>> list;
+	ExcelRW excel_rw(config_->getSheetName(), config_->getLanToSuffixMap());
+	QMap<QString, QList<TranslateModel>> list;
 	qDebug("excel path: %s, ts path: %s", qPrintable(src), qPrintable(target));
-	excel_rw.readXlsx(list, src);
-	TsRw ts_rw;
+	if (!excel_rw.readXlsx(list, src)) {
+		qDebug("ExcelToTs::execute read excel file failed!");
+	}
+	TsRw ts_rw(config_->getLanToSuffixMap());
 	ts_rw.exportToTs(list, target);
+
+	emit exportFinished();
 }

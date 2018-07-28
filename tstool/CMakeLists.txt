@@ -61,6 +61,8 @@ endif(APPLE)
 set(
 	tstool_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.h
 )
 set(SRC_ALL_SRCS
   ${tstool_SRCS}
@@ -104,3 +106,6 @@ if(APPLE)
 endif()
 
 obs_install_additional(${PROJECT_NAME})
+install_xlsx_bin(${PROJECT_NAME})
+include(ConfigBins)
+install_config(${PROJECT_NAME})

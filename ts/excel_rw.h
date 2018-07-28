@@ -1,19 +1,20 @@
 #pragma once
 #include <QObject>
-#include <QList>
+#include <QMap>
 #include <QString>
 #include "translate_model.h"
 
 class ExcelRW : public QObject {
 	Q_OBJECT
 public:
-	ExcelRW(QObject *parent = 0);
+	ExcelRW(QString sheet_name, QMap<QString, QString> lan_to_suffix, QObject *parent = 0);
 	~ExcelRW();
 
-	bool readXlsx(QList<QList<TranslateModel>> &list, QString path);
+	bool readXlsx(QMap<QString, QList<TranslateModel>> &list, QString path);
 
 private:
-	int sheet_index_;
+	QString sheet_name_;
 	int key_column_;
-	int trans_columns_;
+	//ÓïÑÔµ½ºó×ºmap
+	QMap<QString, QString> lan_to_suffix_;
 };

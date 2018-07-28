@@ -7,14 +7,15 @@
 class TsRw : public QObject {
 	Q_OBJECT
 public:
-	explicit TsRw(QObject *parent = 0);
+	explicit TsRw(QMap<QString, QString> lan_to_suffix, QObject *parent = 0);
 	~TsRw();
 
-	bool exportToTs(QList<QList<TranslateModel>> &list, QString path);
+	bool exportToTs(QMap<QString, QList<TranslateModel>> &list, QString path);
 
-	int findLanguageIndex(QString language_file);
+	QString findLanguageSuffix(QString language_file);
 	static QString prefix_;
-	static QVector<QString> language_;
-	static void initLanguage();
+
+	//ÓïÑÔµ½ºó×ºmap
+	QMap<QString, QString> lan_to_suffix_;
 };
 

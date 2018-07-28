@@ -3,7 +3,11 @@
 #include "xlsxcellrange.h"
 #include "xlsxdocument.h"
 
-ExcelRW::ExcelRW(QObject *parent) : QObject(parent), sheet_index_(6), key_column_(1), trans_columns_(9){
+ExcelRW::ExcelRW(QString sheet_name, QMap<QString, QString> lan_to_suffix, QObject *parent) : QObject(parent), 
+key_column_(1), 
+sheet_name_(sheet_name),
+lan_to_suffix_(lan_to_suffix)
+{
 
 }
 
@@ -11,7 +15,7 @@ ExcelRW::~ExcelRW() {
 
 }
 
-bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
+bool ExcelRW::readXlsx(QMap<QString, QList<TranslateModel>>& list, QString path) {
 	bool is_success = false;
 	list.clear();
 
@@ -25,28 +29,26 @@ bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
 		return is_success;
 	}
 
-	if (p_doc->sheetNames().isEmpty()) {
-		return is_success;
-	}
-
 	foreach(QString sheet_name, p_doc->sheetNames()) {
 		qDebug(qUtf8Printable(sheet_name));
 	}
 
-	if (p_doc->sheetNames().size() <= sheet_index_) {
-		qDebug("未存在主播端（总表）");
+	//选择第sheet_name_表
+	if (!p_doc->selectSheet(sheet_name_)) {
+		qDebug("ExcelRW::readXlsx %s 不存在", qUtf8Printable(sheet_name_));
 		return is_success;
 	}
 	
-	//选择第sheet_index表
-	p_doc->selectSheet(p_doc->sheetNames().at(sheet_index_));
-
 	cell_range = p_doc->currentWorksheet()->dimension();
 
-	for (int column = 2; column <= trans_columns_; column++) {
+	for (int column = 2; column <= cell_range.columnCount(); column++) {
 		//
 		QList<TranslateModel> trans_list;
-
+		QXlsx::Cell* cell = p_doc->cellAt(1, column);
+		QString suffix;
+		if (cell) {
+			suffix = lan_to_suffix_[cell->value().toString().trimmed()];
+		}
 		do {
 			if (1 == cell_range.lastRow() && (p_doc->cellAt(cell_range.lastRow(), cell_range.lastColumn()) == 0)) {
 				is_success = true;
@@ -74,11 +76,15 @@ bool ExcelRW::readXlsx(QList<QList<TranslateModel>> &list, QString path) {
 
 				if (!model.isEmpty()) {
 					trans_list.append(model);
-					qDebug("translate model key:%s, translate:%s", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
+					//qDebug("translate model key:%s, translate:%s", qUtf8Printable(model.getKey()), qUtf8Printable(model.getTranslate()));
 				}
 			}
 		} while (0);
-		list.append(trans_list);
+		
+		if (!suffix.isEmpty()) {
+			list[suffix] = trans_list;
+			is_success = true;
+		}
 	}
 	
 

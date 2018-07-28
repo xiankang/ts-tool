@@ -12,6 +12,8 @@ public:
 	DownloadExcel(QObject* parent = 0);
 	~DownloadExcel();
 
+signals:
+	void downloadFinished();
 public slots:
 	void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 	void slotReadyRead();

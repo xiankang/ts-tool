@@ -155,10 +155,16 @@ endif()
 
 include(ObsHelpers)
 
+if(MSVC AND NOT EXISTS "${CMAKE_BINARY_DIR}/ALL_BUILD.vcxproj.user")
+	file(GENERATE
+		OUTPUT "${CMAKE_BINARY_DIR}/ALL_BUILD.vcxproj.user"
+		INPUT "${CMAKE_SOURCE_DIR}/cmake/ALL_BUILD.vcxproj.user.in")
+endif()
+
 add_subdirectory(xlsx)
 add_subdirectory(ts)
 add_subdirectory(tstool)
-add_subdirectory(tstoolui)
+# add_subdirectory(tstoolui)
 
 #增加运行子目录
 
