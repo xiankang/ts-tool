@@ -60,6 +60,7 @@ endif(APPLE)
 
 set(
 	tstool_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 set(SRC_ALL_SRCS
   ${tstool_SRCS}
