@@ -17,6 +17,8 @@ endif()
 message(${INPUT})
 message(${OUTPUT})
 message(${PATTERN})
+
+# make_directory(${OUTPUT})
 file(INSTALL "${INPUT}" 
     DESTINATION "${OUTPUT}" 
     USE_SOURCE_PERMISSIONS 

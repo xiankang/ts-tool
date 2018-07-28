@@ -150,3 +150,5 @@ endif()
 
 obs_install_additional(${PROJECT_NAME})
 install_xlsx_bin(${PROJECT_NAME})
+include(ConfigBins)
+install_config(${PROJECT_NAME})
