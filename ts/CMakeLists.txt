@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10.0)
 
 set(FIND_MODE REQUIRED)
 

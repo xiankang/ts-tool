@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10.0)
 
 set(FIND_MODE REQUIRED)
 
@@ -129,12 +129,16 @@ set(all_SRCS
   ${xlsx_SRCS}
 )
 
-add_library(${PROJECT_NAME}
+add_library(${PROJECT_NAME} SHARED
   ${all_SRCS}
 )
 
+set_target_properties(${PROJECT_NAME} 
+  PROPERTIES
+  DEBUG_OUTPUT_NAME ${PROJECT_NAME}d
+)
+
 add_definitions(-DXLSX_NO_LIB)
-add_definitions(-XLSX_NO_LIB)
 
 #用到的qt模块
 set(_link_type

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10.0)
 
 if(DISABLE_UI)
 	message(STATUS "UI disabled")
@@ -107,6 +107,7 @@ qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Quick QuickControls2 QuickWidge
 include(XlsxBins)
 use_xlsx_module(${PROJECT_NAME})
 
+
 #添加ts模块
 include(TsBins)
 use_ts_module(${PROJECT_NAME})
@@ -148,3 +149,4 @@ if(APPLE)
 endif()
 
 obs_install_additional(${PROJECT_NAME})
+install_xlsx_bin(${PROJECT_NAME})
