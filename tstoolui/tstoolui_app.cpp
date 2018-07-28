@@ -1,14 +1,15 @@
-#include "tstool_app.h"
+#include "tstoolui_app.h"
 
-TsToolApp::TsToolApp(int &argc, char **argv) : QGuiApplication(argc, argv) {
 
-}
-
-TsToolApp::~TsToolApp() {
+TsToolUIApp::TsToolUIApp(int &argc, char **argv) : QGuiApplication(argc, argv) {
 
 }
 
-bool TsToolApp::init() {
+TsToolUIApp::~TsToolUIApp() {
+
+}
+
+bool TsToolUIApp::init() {
   try{
     p_engine_ = new QQmlApplicationEngine(this);
 	p_engine_->load(QUrl("qrc:/qml/tstool_main_window.qml"));
@@ -20,8 +21,9 @@ bool TsToolApp::init() {
 	}
 	main_window_->show();
 
+	config_ = new Config(this);
 	download_excel_ = new DownloadExcel(this);
-	excel_to_ts_ = new ExcelToTs(this);
+	excel_to_ts_ = new ExcelToTs(config_, this);
 
 	bindSignals();
   }
@@ -33,7 +35,7 @@ bool TsToolApp::init() {
   return true;
 }
 
-void TsToolApp::bindSignals() {
+void TsToolUIApp::bindSignals() {
 	QObject::connect(main_window_, SIGNAL(downloadExcel(QString, QString)), download_excel_, SLOT(execute(QString, QString)));
 	QObject::connect(main_window_, SIGNAL(excelToTs(QString, QString)), excel_to_ts_, SLOT(execute(QString, QString)));
 }

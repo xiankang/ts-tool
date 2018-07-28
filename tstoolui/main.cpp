@@ -1,13 +1,13 @@
-#include "tstool_app.h"
+#include "tstoolui_app.h"
 
 int main(int argc, char *argv[]){
 
     // 执行tstool_app
-	TsToolApp tsToolApp(argc, argv);
+	TsToolUIApp app(argc, argv);
 
 	int r;
-	if (tsToolApp.init())
-		r = tsToolApp.exec();
+	if (app.init())
+		r = app.exec();
 	return r;
 	system("PAUSE");
 }

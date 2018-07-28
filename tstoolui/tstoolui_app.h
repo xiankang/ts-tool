@@ -6,12 +6,13 @@
 #include <QObject>
 #include "download_excel.h"
 #include "excel_to_ts.h"
+#include "config.h"
 
-class TsToolApp : public QGuiApplication {
+class TsToolUIApp : public QGuiApplication {
 	Q_OBJECT
 public:
-  TsToolApp(int &argc, char** argv);
-  ~TsToolApp();
+  TsToolUIApp(int &argc, char** argv);
+  ~TsToolUIApp();
 	bool init();
 
 private:
@@ -21,6 +22,7 @@ private:
 
   QPointer<DownloadExcel> download_excel_;
   QPointer<ExcelToTs> excel_to_ts_;
+  QPointer<Config> config_;
 private:
 	void bindSignals();
 };

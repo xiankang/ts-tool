@@ -164,7 +164,7 @@ endif()
 add_subdirectory(xlsx)
 add_subdirectory(ts)
 add_subdirectory(tstool)
-# add_subdirectory(tstoolui)
+add_subdirectory(tstoolui)
 
 #增加运行子目录
 

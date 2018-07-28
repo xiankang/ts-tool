@@ -72,8 +72,8 @@ add_subdirectory(forms)
 
 set(tstool_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/tstool_app.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/tstoolui_app.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/tstoolui_app.cpp
 )
 
 # qt5_wrap_ui(UI_HEADERS ${forms_SRCS})
