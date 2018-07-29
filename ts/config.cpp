@@ -19,18 +19,18 @@ Config::~Config() {
 void Config::readConfig() {
 	QFile file(config_file_);
 	if (!file.open(QFile::ReadOnly | QFile::Text)) {
-		qDebug("Config::readConfig() can't open file %s", qUtf8Printable(config_file_));
+		qFatal("Config::readConfig() can't open file %s", qUtf8Printable(config_file_));
 		return;
 	}
 
 	QDomDocument doc;
 	if (!doc.setContent(&file)) {
-		qDebug("Config::readConfig() xml parsing error");
+		qFatal("Config::readConfig() xml parsing error");
 		return;
 	}
 
 	QDomElement root = doc.documentElement();
-	qDebug(qUtf8Printable(root.nodeName()));
+	qInfo(qUtf8Printable(root.nodeName()));
 
 	QDomNodeList& node_list(root.childNodes());
 	for(int i=0; i< node_list.count(); i++){
@@ -61,26 +61,26 @@ void Config::readConfig() {
 		}
 	}
 
-	qDebug("download translate excel file form %s", qUtf8Printable(excel_url_));
-	qDebug("translate file save: %s", qUtf8Printable(translate_path_));
-	qDebug("sheet name: %s", qUtf8Printable(sheet_name_));
-	qDebug("regionSheetName: %s",qUtf8Printable(region_sheet_name_));
-	qDebug("regionSheetName2: %s", qUtf8Printable(region_sheet_name2_));
-	qDebug("lan column name: %s", qUtf8Printable(lan_));
-	qDebug("lanToChinese column name: %s", qUtf8Printable(lan_to_chinese_));
-	qDebug("ts path: %s", qUtf8Printable(ts_path_));
+	qInfo("download translate excel file form %s", qUtf8Printable(excel_url_));
+	qInfo("translate file save: %s", qUtf8Printable(translate_path_));
+	qInfo("sheet name: %s", qUtf8Printable(sheet_name_));
+	qInfo("regionSheetName: %s",qUtf8Printable(region_sheet_name_));
+	qInfo("regionSheetName2: %s", qUtf8Printable(region_sheet_name2_));
+	qInfo("lan column name: %s", qUtf8Printable(lan_));
+	qInfo("lanToChinese column name: %s", qUtf8Printable(lan_to_chinese_));
+	qInfo("ts path: %s", qUtf8Printable(ts_path_));
 	file.close();
 }
 
 void Config::readReginCode() {
 	QXlsx::Document* p_doc = new QXlsx::Document(region_code_file_);
 	if (p_doc == nullptr) {
-		qDebug("Config::readReginCode() can't open %s", region_code_file_);
+		qFatal("Config::readReginCode() can't open %s", region_code_file_);
 		return;
 	}
 
 	if (p_doc->sheetNames().isEmpty()) {
-		qDebug("Config::readReginCode() %s is no data");
+		qFatal("Config::readReginCode() %s is no data");
 		return;
 	}
 
@@ -88,7 +88,7 @@ void Config::readReginCode() {
 
 	QXlsx::CellRange cell_range = p_doc->currentWorksheet()->dimension();
 	
-	qDebug("%d",cell_range.columnCount());
+	qInfo("%d",cell_range.columnCount());
 
 	int lan_column = 0;
 	int lan_to_chinese_column = 0;
@@ -120,7 +120,7 @@ void Config::readReginCode() {
 		if (!chinese.isEmpty()) {
 			lan_to_suffix_[chinese] = lan;
 
-			qDebug("lan: %s, chinese: %s", qUtf8Printable(lan), qUtf8Printable(chinese));
+			qInfo("lan: %s, chinese: %s", qUtf8Printable(lan), qUtf8Printable(chinese));
 		}
 	}
 }

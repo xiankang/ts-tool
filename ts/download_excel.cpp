@@ -49,7 +49,7 @@ void DownloadExcel::slotReplyFinished(QNetworkReply* reply) {
 	}
 	else {
 		//´íÎó
-		qDebug("DownloadExcel::slotReplyFinished error %d", reply->error());
+		qFatal("DownloadExcel::slotReplyFinished error %d", reply->error());
 	}
 
 	reply->deleteLater();
@@ -58,11 +58,11 @@ void DownloadExcel::slotReplyFinished(QNetworkReply* reply) {
 }
 
 void DownloadExcel::slotError(QNetworkReply::NetworkError error) {
-	qDebug("DownloadExcel::slotError %d", error);
+	qFatal("DownloadExcel::slotError %d", error);
 }
 
 void DownloadExcel::slotSslErrors(QList<QSslError> errors) {
 	for (QList<QSslError>::iterator iter = errors.begin(); iter != errors.end(); iter++) {
-		qDebug("DownloadExcel::slotSslErrors %d", *iter);
+		qFatal("DownloadExcel::slotSslErrors %d", *iter);
 	}
 }

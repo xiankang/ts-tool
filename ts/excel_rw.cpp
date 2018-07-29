@@ -30,12 +30,12 @@ bool ExcelRW::readXlsx(QMap<QString, QList<TranslateModel>>& list, QString path)
 	}
 
 	foreach(QString sheet_name, p_doc->sheetNames()) {
-		qDebug(qUtf8Printable(sheet_name));
+		qInfo(qUtf8Printable(sheet_name));
 	}
 
 	//选择第sheet_name_表
 	if (!p_doc->selectSheet(sheet_name_)) {
-		qDebug("ExcelRW::readXlsx %s 不存在", qUtf8Printable(sheet_name_));
+		qFatal("ExcelRW::readXlsx %s 不存在", qUtf8Printable(sheet_name_));
 		return is_success;
 	}
 	

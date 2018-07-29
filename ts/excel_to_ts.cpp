@@ -16,9 +16,9 @@ ExcelToTs::~ExcelToTs() {
 void ExcelToTs::execute(QString src, QString target) {
 	ExcelRW excel_rw(config_->getSheetName(), config_->getLanToSuffixMap());
 	QMap<QString, QList<TranslateModel>> list;
-	qDebug("excel path: %s, ts path: %s", qPrintable(src), qPrintable(target));
+	qInfo("excel path: %s, ts path: %s", qPrintable(src), qPrintable(target));
 	if (!excel_rw.readXlsx(list, src)) {
-		qDebug("ExcelToTs::execute read excel file failed!");
+		qFatal("ExcelToTs::execute read excel file failed!");
 	}
 	TsRw ts_rw(config_->getLanToSuffixMap());
 	ts_rw.exportToTs(list, target);
